@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Brand palette */
+  --color-ink: #0f0e0c;
+  --color-ink-2: #14120f;
+  --color-ink-3: #171512;
+  --color-dark: #14110d;
+  --color-cream: #eee7da;
+  --color-ivory: #f4eee3;
+  --color-gold: #c49a6c;
+  --color-gold-deep: #8a6338;
+  --color-line: #3a342c;
+  --color-copy: #d2cabb;
+  --color-copy-2: #d9d1c2;
+  --color-label: #ada494;
+  --color-muted: #a39a8b;
+  --color-caption: #cfc6b6;
+  --color-error: #e08a6d;
+  --color-error-text: #e9a88f;
+
+  /* Fonts come from next/font in layout.tsx */
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-sans: var(--font-jost), "Jost", sans-serif;
+}
+
+/* Shared layout helpers */
+@utility wrap {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 64px);
+}
+
+@utility section-y {
+  padding-block: clamp(80px, 10vw, 128px);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Match the original page, which used the browser's default line height */
+    line-height: normal;
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-cream);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Form controls use the regular weight, not the page's light body weight */
+  input,
+  select,
+  textarea,
+  button {
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  a {
+    color: var(--color-cream);
+  }
+
+  a:hover {
+    color: #ffffff;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 1px;
+  }
+}
+
+@layer components {
+  /* Reservation form controls */
+  .field {
+    min-height: 52px;
+    width: 100%;
+    padding: 0 16px;
+    background: var(--color-ink);
+    border: 1px solid var(--color-line);
+    color: var(--color-cream);
+    font-size: 16px;
+  }
+
+  .field.err {
+    border-color: var(--color-error);
+  }
+
+  .chip,
+  .mchip {
+    background: transparent;
+    border: 1px solid var(--color-line);
+    color: var(--color-cream);
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .chip {
+    min-height: 46px;
+    padding: 0 14px;
+  }
+
+  .mchip {
+    min-height: 50px;
+    min-width: 160px;
+    padding: 0 24px;
+  }
+
+  .chip[aria-pressed="true"],
+  .mchip[aria-pressed="true"] {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-dark);
+    font-weight: 500;
+  }
+
+  .err-group .mchip {
+    border-color: var(--color-error);
+  }
+
+  /* Tripadvisor widget.
+     Tripadvisor's markup expects plain browser defaults, so undo Tailwind's base reset
+     inside the widget. Tripadvisor's own stylesheet still applies on top. */
+  .ta-wrap {
+    min-width: 240px;
+  }
+
+  .ta-wrap * {
+    all: revert;
+    box-sizing: border-box;
+  }
+
+  .ta-wrap a {
+    color: inherit;
+  }
+
+  .ta-wrap img {
+    max-width: 100%;
+  }
+
+  .ta-wrap ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Review carousel */
+  .rv-stage {
+    display: grid;
+  }
+
+  .rv-slide {
+    grid-area: 1 / 1;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    visibility: hidden;
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s ease,
+      visibility 0s linear 0.9s;
+  }
+
+  .rv-slide.on {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s ease,
+      visibility 0s;
+  }
+
+  .rv-dot {
+    width: 36px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .rv-dot span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: rgba(238, 231, 218, 0.28);
+    transition: background 0.4s ease;
+  }
+
+  .rv-dot[aria-current="true"] span {
+    background: var(--color-gold);
+  }
+
+  @media (max-width: 760px) {
+    .rv-dot {
+      width: 24px;
+    }
+  }
+
+  /* Slow zoom on the dusk banner photo */
+  .kb {
+    transform-origin: 50% 60%;
+    animation: kb 26s ease-in-out infinite alternate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kb {
+      animation: none;
+    }
+
+    .rv-slide,
+    .rv-slide.on {
+      transition: none;
+    }
+  }
+}
+
+@keyframes kb {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
