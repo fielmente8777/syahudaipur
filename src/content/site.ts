@@ -2,8 +2,8 @@
 // Edit this file to update reviews, dishes, prices or contact details.
 
 export const contact = {
-  whatsapp: "919711987495",
-  whatsappDisplay: "+91 97119 87495",
+  whatsapp: "+17116894930",
+  whatsappDisplay: "+1 711 689 4930",
   phone: "+919711987495",
   email: "syahudaipur@gmail.com",
   address: {

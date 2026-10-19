@@ -114,6 +114,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         src="https://cb-script.dyq28lyxrazm2.amplifyapp.com/widget/lead-chatbot.js"
         strategy="afterInteractive"
       />
+      <Script id="whatsapp-config" strategy="afterInteractive">
+        {`window.eazbotConfig = {
+          ndid: "35a8859a-34c7-4f32-98a8-00c61d5eeb9c",
+          hid: "37307193",
+          phoneNumber: "17116894930",
+          message: "Hello",
+          position: "left",
+        };`}
+      </Script>
+      <Script
+        strategy="afterInteractive"
+        src="https://whatsapp-widget-tau.vercel.app/widget/whatsapp.js"
+      ></Script>
     </html>
   );
 }
